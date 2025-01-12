@@ -41,10 +41,8 @@ public class Main {
         Person.Body bodyB = babka.new Body(32);
         Person.Body.Hair hair = bodyB.new Hair(10000);
 
-        Raskolnikov raskolnikov;
-        raskolnikov = new Raskolnikov("raskolnikov", Position.STAND);
-        Costume costume;
-        costume = raskolnikov.new Costume("frak");
+        Raskolnikov raskolnikov = new Raskolnikov("raskolnikov", Position.STAND);
+        Costume costume = raskolnikov.new Costume("frak");
 
         GhostBabka ghostbabka = new GhostBabka(true);
         Blood blood;
@@ -56,67 +54,25 @@ public class Main {
         Tools axe = new Tools(Items.AXE, true);
 
 
-        System.out.println("\nНачало истории\n");
         hair.setHairstyle();
-
-        if (raskolnikov.take(axe)) {
-            System.out.println("Раскольников взял топор");
-
-            while (babka.getHp() != 0) {
-
-                if (raskolnikov.hit(babka)) {
-                    System.out.println("Бабка вскркинула");
-                    babka.say();
-                    babka.setStatus(Status.SHIVER);
-                    bodyB.fall();
-                    if (raskolnikov.getDistance()) {
-                        bodyB.setPosition(Position.LYTING);
-                    } else {
-                        bodyB.setPosition(Position.SEMIRECUMBENT);
-                    }
-
-                    if (babka.getHp() != 0) {
-
-                        if (blood.getGushFirst() > 50) {
-                            costume.setIsDirty(true);
-                        }
-                        raskolnikov.hit(babka);
-                    } else {
-
-                        if (blood.getGushSecond() > 50) {
-                            costume.setIsDirty(true);
-                        }
-                    }
-                }
-            }
-            babka.setStatus(Status.DEAD);
-            raskolnikov.setStatus(Status.SHIVER);
-            raskolnikov.move();
-            if (raskolnikov.getDistance()) {
-                bodyB.setPosition(Position.LYTING);
-                raskolnikov.setPosition(Position.BENTDOWN);
-            }
-            if (raskolnikov.getPosition() == Position.BENTDOWN) {
-                raskolnikov.drop(axe);
-                if (!raskolnikov.getBusyHands()) {
-                    raskolnikov.take(itemArrayList.get(1));
-                }
-            }
-
-            raskolnikov.move();
-            raskolnikov.setStatus(Status.CRAMP);
-            polka.open(itemArrayList.get(1));
-            raskolnikov.laugh();
-            if (ghostbabka.getVisiable()) {
-                raskolnikov.vision(ghostbabka);
-            }
-            raskolnikov.drop(itemArrayList.get(1));
-            raskolnikov.move();
-            if (!raskolnikov.getBusyHands()) {
-                raskolnikov.take(axe);
-            }
-            rope.setWetness(true);
-            raskolnikov.setPosition(Position.BENTDOWN);
+        raskolnikov.take(axe);
+        raskolnikov.hit(babka, blood, costume);
+        bodyB.fall(raskolnikov);
+        raskolnikov.setStatus(Status.SHIVER);
+        raskolnikov.stepBack(bodyB);
+        raskolnikov.setPosition(Position.BENTDOWN);
+        raskolnikov.drop(axe);
+        raskolnikov.take(itemArrayList.get(1));
+        raskolnikov.move();
+        raskolnikov.setStatus(Status.CRAMP);
+        polka.open(itemArrayList.get(1));
+        raskolnikov.laugh();
+        raskolnikov.vision(ghostbabka);
+        raskolnikov.drop(itemArrayList.get(1));
+        raskolnikov.move();
+        raskolnikov.take(axe);
+        rope.setWetness(true);
+        raskolnikov.setPosition(Position.BENTDOWN);
             try {
                 raskolnikov.cut(scissors, rope);
             } catch (NullItemException e) {
@@ -130,11 +86,7 @@ public class Main {
             raskolnikov.take(itemArrayList.getFirst());
             raskolnikov.setPosition(Position.STAND);
             raskolnikov.hidePocket(itemArrayList.getFirst());
-            if (raskolnikov.getBusyHands()) {
-                raskolnikov.take(axe);
-            }
+            raskolnikov.take(axe);
             raskolnikov.move();
-
-        }
     }
 }

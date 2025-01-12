@@ -52,7 +52,7 @@ public class Babka extends Person {
         return firstHp;
     }
 
-    public void setFirstHp(int sumHit) {
+    public void setHp(int sumHit) {
         hp = hp - sumHit;
     }
 

@@ -8,6 +8,7 @@ import forpeople.Item;
 import forpeople.Tools;
 import interfaces.Hit;
 import interfaces.Move;
+import forpeople.Blood;
 
 
 public class Raskolnikov extends Person implements Hit, Move {
@@ -60,37 +61,34 @@ public class Raskolnikov extends Person implements Hit, Move {
 
 
     @Override
-    public boolean hit(Babka b) {
-
-        // Условие, определяющее "удар"
-        if (0 < b.getHp()) {
-
-            if (b.getHp() == b.getFirstHp()) {
-
-                System.out.println("Бабка была ударена!");
-                b.setFirstHp(10); // Уменьшаем здоровье бабки
-                // Удар успешно выполнен
-            } else {
-                b.setSecondHp();
-
+    public void hit(Babka b, Blood blood, Costume costume) {
+        while (b.getHp() != 0) {
+            if (0 < b.getHp()) {
+                if (b.getHp() == b.getFirstHp()) {
+                    b.setHp(10);
+                    System.out.println("Бабка была ударена!");
+                    b.say();
+                    b.setStatus(Status.SHIVER);
+                    System.out.println("Бабка вскрикнула");
+                    if (blood.getGushFirst() > 50) {
+                        costume.setIsDirty(true);
+                    }
+                } else {
+                    b.setSecondHp();
+                }
             }
-            x = true;
-        } else {
-            System.out.println("Бабка уже мертва!");
-            x = false; // Бабка не может быть больше повреждена
         }
-
-        return x;
-
-
+        if (blood.getGushSecond() > 50) {
+            costume.setIsDirty(true);
+        }
+        b.setStatus(Status.DEAD);
+        System.out.println("Бабка уже мертва!");
     }
 
     @Override
     public void say() {
         System.out.println("Xexe");
     }
-
-    // public void climb(){}
 
     public void laugh() {
         say();
@@ -99,14 +97,26 @@ public class Raskolnikov extends Person implements Hit, Move {
     }
 
 
-    public boolean take(Tools t) {
-        busyHands = true;
-        Tools expectedTool = new Tools(Items.AXE, true);
-
-        // Сравниваем переданный инструмент с ожидаемым
-        return expectedTool.equals(t);
+    public void take(Tools t) {
+        if (!getBusyHands()) {
+            Tools expectedTool = new Tools(Items.AXE, true);
+            if(expectedTool.equals(t)) {
+                busyHands = true;
+                System.out.println("Раскольников взял топор");
+            }
+        }
     }
 
+    public void stepBack(Body body) {
+        if (getDistance()) {
+            body.setPosition(Position.LYTING);
+            System.out.println("Раскольников отошел назад");
+
+        }
+
+        setPosition(Position.STAND);
+        distance = true;
+    }
     public void move() {
         System.out.println("Раскольников переместился");
         setPosition(Position.STAND);
@@ -123,8 +133,12 @@ public class Raskolnikov extends Person implements Hit, Move {
 
 
     public void take(Item i) {
-        busyHands = true;
-        System.out.println("Раскольников взял " + i);
+        if(getPosition() == Position.BENTDOWN) {
+            if (!getBusyHands()) {
+                busyHands = true;
+                System.out.println("Раскольников нагнулся и взял " + i);
+            }
+        }
     }
 
     public void hidePocket(Item i) {
@@ -134,8 +148,8 @@ public class Raskolnikov extends Person implements Hit, Move {
     }
 
     public void drop(Tools t) {
-        busyHands = false;
-        System.out.println("Раскольников положил " + t);
+            busyHands = false;
+            System.out.println("Раскольников положил " + t);
 
     }
 
@@ -146,8 +160,10 @@ public class Raskolnikov extends Person implements Hit, Move {
     }
 
     public void vision(GhostBabka g) {
+        if (g.getVisiable()) {
         g.setVisiable(false);
         System.out.println("Ему почудилась бабка");
+        }
 
     }
 

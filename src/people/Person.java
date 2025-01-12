@@ -56,8 +56,15 @@ public abstract class Person {
             this.sumTeeth = sumTeeth;
         }
 
-        public void fall() {
+        public void fall(Raskolnikov r) {
+            if (r.getDistance()) {
+                setPosition(Position.LYTING);
+            } else {
+                setPosition(Position.SEMIRECUMBENT);
+            }
             sumTeeth = sumTeeth - 1;
+
+
         }
 
         public void setPosition(Position position) {
@@ -74,19 +81,13 @@ public abstract class Person {
 
             public Hair(int sumHair) {
                 this.sumHair = sumHair;
-
             }
 
             public void setHairstyle() {
                 boolean isHairstyle = true;
                 sumHair = sumHair - 10;
-
             }
-
-
         }
-
-
     }
 
 

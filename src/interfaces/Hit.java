@@ -1,7 +1,9 @@
 package interfaces;
 
+import forpeople.Blood;
 import people.Babka;
+import people.Person;
 
 public interface Hit {
-    boolean hit(Babka b);
+    void hit(Babka b, Blood blood, Person.Costume costume);
 }
