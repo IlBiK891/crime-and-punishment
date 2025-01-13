@@ -47,7 +47,7 @@ public class Main {
         GhostBabka ghostbabka = new GhostBabka(true);
         Blood blood = new Blood();
 
-        Dresser dresser = new Dresser("tree");
+        Dresser dresser = new Dresser();
         Dresser.Shelf polka = dresser.new Shelf(10);
 
         Tools axe = new Tools(Items.AXE, true);
