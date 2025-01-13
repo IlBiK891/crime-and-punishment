@@ -4,18 +4,10 @@ import enums.Position;
 import enums.Status;
 
 public abstract class Person {
-    /*@Override
-    public boolean equals(Object obj) {
-        return true;
-    }*/
 
 
     public String name;
     private Position position;
-
-    public Person(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;
@@ -104,7 +96,6 @@ public abstract class Person {
             this.isDirty = isDirty;
             System.out.println("Костюм забрызган кровью");
 
-            //isDirty = Random
         }
     }
 

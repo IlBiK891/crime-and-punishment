@@ -4,11 +4,6 @@ import enums.Items;
 import interfaces.Move;
 
 public class Dresser {
-    private String materials;
-
-    public Dresser(String materials) {
-        this.materials = materials;
-    }
 
 
     public class Shelf implements Move {

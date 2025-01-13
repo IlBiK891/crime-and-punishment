@@ -66,7 +66,6 @@ public class Item {
         System.out.println("Веревка пропталась кровью");
         this.wetness = wetness;
     }
-    //private boolean isCut;
 
 
 }

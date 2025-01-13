@@ -37,16 +37,15 @@ public class Main {
         Item rope = new Item(Items.ROPE, false, true);
 
 
-        Babka babka = new Babka("babka", 100);
+        Babka babka = new Babka(100);
         Person.Body bodyB = babka.new Body(32);
         Person.Body.Hair hair = bodyB.new Hair(10000);
 
-        Raskolnikov raskolnikov = new Raskolnikov("raskolnikov", Position.STAND);
+        Raskolnikov raskolnikov = new Raskolnikov( Position.STAND);
         Costume costume = raskolnikov.new Costume("frak");
 
         GhostBabka ghostbabka = new GhostBabka(true);
-        Blood blood;
-        blood = new Blood("red");
+        Blood blood = new Blood();
 
         Dresser dresser = new Dresser("tree");
         Dresser.Shelf polka = dresser.new Shelf(10);
@@ -56,7 +55,7 @@ public class Main {
 
         hair.setHairstyle();
         raskolnikov.take(axe);
-        raskolnikov.hit(babka, blood, costume);
+        raskolnikov.hit(babka, blood, costume, axe);
         bodyB.fall(raskolnikov);
         raskolnikov.setStatus(Status.SHIVER);
         raskolnikov.stepBack(bodyB);

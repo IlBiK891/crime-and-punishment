@@ -2,8 +2,7 @@ package people;
 
 public class Babka extends Person {
 
-    public Babka(String name, int hp) {
-        super(name);
+    public Babka(int hp) {
         this.hp = hp;
         firstHp = hp;
     }

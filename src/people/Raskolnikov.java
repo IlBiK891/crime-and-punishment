@@ -18,8 +18,7 @@ public class Raskolnikov extends Person implements Hit, Move {
     private boolean distance;
     private boolean busyHands;
 
-    public Raskolnikov(String name, Position position) {
-        super(name);
+    public Raskolnikov(Position position) {
         this.position = position;
         distance = false;
 
@@ -61,28 +60,33 @@ public class Raskolnikov extends Person implements Hit, Move {
 
 
     @Override
-    public void hit(Babka b, Blood blood, Costume costume) {
-        while (b.getHp() != 0) {
-            if (0 < b.getHp()) {
-                if (b.getHp() == b.getFirstHp()) {
-                    b.setHp(10);
-                    System.out.println("Бабка была ударена!");
-                    b.say();
-                    b.setStatus(Status.SHIVER);
-                    System.out.println("Бабка вскрикнула");
-                    if (blood.getGushFirst() > 50) {
-                        costume.setIsDirty(true);
+    public void hit(Babka b, Blood blood, Costume costume, Tools tools) {
+        if(tools.isSharp()) {
+            while (b.getHp() != 0) {
+                if (0 < b.getHp()) {
+                    if (b.getHp() == b.getFirstHp()) {
+                        b.setHp(10);
+                        System.out.println("Бабка была ударена!");
+                        b.say();
+                        b.setStatus(Status.SHIVER);
+                        System.out.println("Бабка вскрикнула");
+                        if (blood.getGushFirst() > 50) {
+                            costume.setIsDirty(true);
+                        }
+                    } else {
+                        b.setSecondHp();
                     }
-                } else {
-                    b.setSecondHp();
                 }
+
+                if (blood.getGushSecond() > 50) {
+                    costume.setIsDirty(true);
+                }
+                b.setStatus(Status.DEAD);
+                System.out.println("Бабка уже мертва!");
             }
+        }else{
+            System.out.println("Топор не наточен!");
         }
-        if (blood.getGushSecond() > 50) {
-            costume.setIsDirty(true);
-        }
-        b.setStatus(Status.DEAD);
-        System.out.println("Бабка уже мертва!");
     }
 
     @Override
