@@ -14,7 +14,6 @@ import forpeople.Blood;
 public class Raskolnikov extends Person implements Hit, Move {
 
     private Position position;
-    private boolean x = false;
     private boolean distance;
     private boolean busyHands;
 
@@ -30,8 +29,7 @@ public class Raskolnikov extends Person implements Hit, Move {
         if (!super.equals(obj)) return false; // Сравнение родительских полей (Person)
 
         Raskolnikov that = (Raskolnikov) obj;
-        return x == that.x &&
-                distance == that.distance &&
+        return distance == that.distance &&
                 busyHands == that.busyHands &&
                 position == that.position; // Сравнение специфичных полей
     }
@@ -39,7 +37,6 @@ public class Raskolnikov extends Person implements Hit, Move {
     @Override
     public int hashCode() {
         int result = super.hashCode(); // Используем хэш родительских полей
-        result = 31 * result + (x ? 1 : 0);
         result = 31 * result + (distance ? 1 : 0);
         result = 31 * result + (busyHands ? 1 : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
@@ -51,7 +48,6 @@ public class Raskolnikov extends Person implements Hit, Move {
         return "Raskolnikov{" +
                 "name='" + getName() + '\'' + // Поле из родительского класса Person
                 ", position=" + position +
-                ", x=" + x +
                 ", distance=" + distance +
                 ", busyHands=" + busyHands +
                 '}';
@@ -67,7 +63,6 @@ public class Raskolnikov extends Person implements Hit, Move {
                     if (b.getHp() == b.getFirstHp()) {
                         b.setHp(10);
                         System.out.println("Бабка была ударена!");
-                        b.say();
                         b.setStatus(Status.SHIVER);
                         System.out.println("Бабка вскрикнула");
                         if (blood.getGushFirst() > 50) {
@@ -89,13 +84,9 @@ public class Raskolnikov extends Person implements Hit, Move {
         }
     }
 
-    @Override
-    public void say() {
-        System.out.println("Xexe");
-    }
 
     public void laugh() {
-        say();
+        System.out.println("Xexe");
         setStatus(Status.LAUGHTER);
 
     }
@@ -179,8 +170,21 @@ public class Raskolnikov extends Person implements Hit, Move {
             r.setIntegrity(false);
             System.out.println("Веревка разрезана");
         }
-
     }
+
+    public void cutRope(Item i1, Item i2, Item r){
+        try {
+            cut(i1, r);
+        } catch (NullItemException e) {
+            System.out.println(e.getMessage());
+            try {
+                cut(i2, r);
+            } catch (NullItemException e2) {
+                System.out.println("Ошибка при повторной попытке: " + e2.getMessage());
+            }
+        }
+    }
+
 
 
 }

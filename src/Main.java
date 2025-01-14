@@ -27,13 +27,12 @@ public class Main {
         if (createObject) {
             scissors = new Item(Items.SCISSORS);
         }
-        Item wallet = new Item(Items.WALLET);
-        Item keys = new Item(Items.KEYS);
-        Item sword = new Item(Items.SWORD);
         ArrayList<Item> itemArrayList = new ArrayList<>();
-        itemArrayList.add(wallet);
-        itemArrayList.add(keys);
-        itemArrayList.add(sword);
+        for (Items item : new Items[]{Items.WALLET, Items.KEYS, Items.SWORD}) {
+            itemArrayList.add(new Item(item));
+        }
+
+
         Item rope = new Item(Items.ROPE, false, true);
 
 
@@ -72,20 +71,11 @@ public class Main {
         raskolnikov.take(axe);
         rope.setWetness(true);
         raskolnikov.setPosition(Position.BENTDOWN);
-            try {
-                raskolnikov.cut(scissors, rope);
-            } catch (NullItemException e) {
-                System.out.println(e.getMessage());
-                try {
-                    raskolnikov.cut(itemArrayList.get(2), rope);
-                } catch (NullItemException e2) {
-                    System.out.println("Ошибка при повторной попытке: " + e2.getMessage());
-                }
-            }
-            raskolnikov.take(itemArrayList.getFirst());
-            raskolnikov.setPosition(Position.STAND);
-            raskolnikov.hidePocket(itemArrayList.getFirst());
-            raskolnikov.take(axe);
-            raskolnikov.move();
+        raskolnikov.cutRope(scissors, itemArrayList.get(2), rope);
+        raskolnikov.take(itemArrayList.getFirst());
+        raskolnikov.setPosition(Position.STAND);
+        raskolnikov.hidePocket(itemArrayList.getFirst());
+        raskolnikov.take(axe);
+        raskolnikov.move();
     }
 }

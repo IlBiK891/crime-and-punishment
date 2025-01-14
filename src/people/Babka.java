@@ -2,13 +2,13 @@ package people;
 
 public class Babka extends Person {
 
+    private int hp;
+    private final int firstHp;
+
     public Babka(int hp) {
         this.hp = hp;
         firstHp = hp;
     }
-
-    private int hp;
-    private final int firstHp;
 
     @Override
     public boolean equals(Object obj) {
@@ -37,11 +37,6 @@ public class Babka extends Person {
                 '}';
     }
 
-
-    @Override
-    public void say() {
-        System.out.println("аааа");
-    }
 
     public int getHp() {
         return hp;

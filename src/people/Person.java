@@ -24,7 +24,6 @@ public abstract class Person {
     private int hp;
     private Status status;
 
-    public abstract void say();
 
     public void setStatus(Status status) {
         System.out.println("Состояние " + status);
