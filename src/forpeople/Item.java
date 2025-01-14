@@ -58,7 +58,7 @@ public class Item {
         return integrity;
     }
 
-    public boolean isWetness() {
+    public boolean getWetness() {
         return wetness;
     }
 

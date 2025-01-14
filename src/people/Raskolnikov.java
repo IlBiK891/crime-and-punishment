@@ -4,6 +4,7 @@ import enums.Items;
 import enums.Position;
 import enums.Status;
 import exc.NullItemException;
+import exc.ToolsIsNotSharpException;
 import forpeople.Item;
 import forpeople.Tools;
 import interfaces.Hit;
@@ -24,19 +25,19 @@ public class Raskolnikov extends Person implements Hit, Move {
     }
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true; // Сравнение с самим собой
-        if (obj == null || getClass() != obj.getClass()) return false; // Проверка класса
-        if (!super.equals(obj)) return false; // Сравнение родительских полей (Person)
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
 
         Raskolnikov that = (Raskolnikov) obj;
         return distance == that.distance &&
                 busyHands == that.busyHands &&
-                position == that.position; // Сравнение специфичных полей
+                position == that.position;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode(); // Используем хэш родительских полей
+        int result = super.hashCode();
         result = 31 * result + (distance ? 1 : 0);
         result = 31 * result + (busyHands ? 1 : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
@@ -46,7 +47,7 @@ public class Raskolnikov extends Person implements Hit, Move {
     @Override
     public String toString() {
         return "Raskolnikov{" +
-                "name='" + getName() + '\'' + // Поле из родительского класса Person
+                "name='" + getName() + '\'' +
                 ", position=" + position +
                 ", distance=" + distance +
                 ", busyHands=" + busyHands +
@@ -57,7 +58,7 @@ public class Raskolnikov extends Person implements Hit, Move {
 
     @Override
     public void hit(Babka b, Blood blood, Costume costume, Tools tools) {
-        if(tools.isSharp()) {
+        try {if (tools.isSharp()){
             while (b.getHp() != 0) {
                 if (0 < b.getHp()) {
                     if (b.getHp() == b.getFirstHp()) {
@@ -72,7 +73,6 @@ public class Raskolnikov extends Person implements Hit, Move {
                         b.setSecondHp();
                     }
                 }
-
                 if (blood.getGushSecond() > 50) {
                     costume.setIsDirty(true);
                 }
@@ -80,8 +80,11 @@ public class Raskolnikov extends Person implements Hit, Move {
                 System.out.println("Бабка уже мертва!");
             }
         }else{
-            System.out.println("Топор не наточен!");
+               throw new ToolsIsNotSharpException("Топор тупой");
+            }}catch (ToolsIsNotSharpException t){
+            System.out.println(t.getMessage());
         }
+
     }
 
 

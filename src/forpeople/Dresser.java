@@ -18,15 +18,15 @@ public class Dresser {
         @Override
         public boolean equals(Object o) {
 
-            if (this == o) return true; // Проверка ссылки
-            if (o == null || getClass() != o.getClass()) return false; // Проверка класса
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
             Shelf shelf = (Shelf) o;
-            return name != null && name.equals(shelf.name); // Сравнение по имени
+            return name != null && name.equals(shelf.name);
         }
 
         @Override
         public int hashCode() {
-            return name != null ? name.hashCode() : 0; // Генерация hashCode
+            return name != null ? name.hashCode() : 0;
         }
 
         public void move() {
@@ -35,7 +35,7 @@ public class Dresser {
         }
 
         public void open(Item i) {
-            if (i != null && Items.KEYS.equals(i.getName())) { // Сравнение с константой enum
+            if (i != null && Items.KEYS.equals(i.getName())) {
                 move();
                 System.out.println("Полка открыта!");
             } else {

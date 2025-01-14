@@ -12,17 +12,17 @@ public class Babka extends Person {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true; // Сравнение с самим собой
-        if (obj == null || getClass() != obj.getClass()) return false; // Проверка класса
-        if (!super.equals(obj)) return false; // Сравнение родительских полей (Person)
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
 
         Babka babka = (Babka) obj;
-        return hp == babka.hp && firstHp == babka.firstHp; // Сравнение специфичных полей
+        return hp == babka.hp && firstHp == babka.firstHp;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode(); // Используем хэш родительских полей
+        int result = super.hashCode();
         result = 31 * result + hp;
         result = 31 * result + firstHp;
         return result;
@@ -31,7 +31,7 @@ public class Babka extends Person {
     @Override
     public String toString() {
         return "Babka{" +
-                "name='" + getName() + '\'' + // Поле из родительского класса Person
+                "name='" + getName() + '\'' +
                 ", hp=" + hp +
                 ", firstHp=" + firstHp +
                 '}';
