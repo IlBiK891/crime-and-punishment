@@ -11,6 +11,7 @@ import interfaces.Hit;
 import interfaces.Move;
 import forpeople.Blood;
 
+import java.util.Objects;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -19,17 +20,6 @@ import java.util.logging.Logger;
 public class Raskolnikov extends Person implements Hit, Move {
 
     private static final Logger logger = Logger.getLogger(Raskolnikov.class.getName());
-    /*static {
-        Logger rootLogger = Logger.getLogger("");
-        Handler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.ALL);
-        rootLogger.addHandler(consoleHandler);
-        rootLogger.setLevel(Level.ALL);
-        if (logger.getHandlers().length == 0) {
-            logger.addHandler(new ConsoleHandler());
-        }
-
-    }*/
 
 
     private Position position;
@@ -53,14 +43,12 @@ public class Raskolnikov extends Person implements Hit, Move {
                 position == that.position;
     }
 
+
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (distance ? 1 : 0);
-        result = 31 * result + (busyHands ? 1 : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        return result;
+        return Objects.hash(distance, busyHands, position);
     }
+
 
     @Override
     public String toString() {
@@ -75,29 +63,34 @@ public class Raskolnikov extends Person implements Hit, Move {
     @Override
     public void hit(Babka b, Blood blood, Costume costume, Tools tools) {
         try {
-            if (tools.isSharp()) {
-                while (b.getHp() != 0) {
-                    if (0 < b.getHp()) {
-                        if (b.getHp() == b.getFirstHp()) {
-                            b.setHp(10);
-                            logger.log(Level.INFO, "Бабка была ударена!");
-                            b.setStatus(Status.SHIVER);
-                            logger.log(Level.INFO, "Бабка вскрикнула");
-                            if (blood.getGushFirst() > 50) {
+            Babka rightBabka = new Babka(100);
+            if (b.hashCode() == rightBabka.hashCode()) {
+                if (b.equals(rightBabka)) {
+                    if (tools.isSharp()) {
+                        while (b.getHp() != 0) {
+                            if (0 < b.getHp()) {
+                                if (b.getHp() == b.getFirstHp()) {
+                                    b.setHp(10);
+                                    logger.log(Level.INFO, "Бабка была ударена!");
+                                    b.setStatus(Status.SHIVER);
+                                    logger.log(Level.INFO, "Бабка вскрикнула");
+                                    if (blood.getGushFirst() > 50) {
+                                        costume.setIsDirty(true);
+                                    }
+                                } else {
+                                    b.setSecondHp();
+                                }
+                            }
+                            if (blood.getGushSecond() > 50) {
                                 costume.setIsDirty(true);
                             }
-                        } else {
-                            b.setSecondHp();
+                            b.setStatus(Status.DEAD);
+                            logger.log(Level.INFO, "Бабка уже мертва!");
                         }
+                    } else {
+                        throw new ToolsIsNotSharpException("Топор тупой");
                     }
-                    if (blood.getGushSecond() > 50) {
-                        costume.setIsDirty(true);
-                    }
-                    b.setStatus(Status.DEAD);
-                    logger.log(Level.INFO, "Бабка уже мертва!");
                 }
-            } else {
-                throw new ToolsIsNotSharpException("Топор тупой");
             }
         } catch (ToolsIsNotSharpException t) {
             logger.log(Level.SEVERE, t.getMessage());
@@ -182,7 +175,8 @@ public class Raskolnikov extends Person implements Hit, Move {
         }
     }
 
-    public void cutRope(Item i1, Item i2, Item r) {
+    /*public void cutRope(Item i1, Item i2, Item r)
+    /*{
         try {
             cut(i1, r);
         } catch (NullItemException e) {
@@ -193,5 +187,5 @@ public class Raskolnikov extends Person implements Hit, Move {
                 logger.log(Level.SEVERE, "Ошибка при повторной попытке: {0}", e2.getMessage());
             }
         }
-    }
+    }*/
 }

@@ -40,6 +40,7 @@ public class Main {
         Person.Body.Hair hair = bodyB.new Hair(10000);
 
         Raskolnikov raskolnikov = new Raskolnikov( Position.STAND);
+        Raskolnikov raskolnikov1 = raskolnikov;
         Costume costume = raskolnikov.new Costume("frak");
 
         GhostBabka ghostbabka = new GhostBabka(true);
@@ -52,6 +53,10 @@ public class Main {
 
 
         hair.setHairstyle();
+        if (raskolnikov1.hashCode() == raskolnikov.hashCode()){
+            if (raskolnikov1.equals(raskolnikov)){
+                raskolnikov.take(axe);
+        }}
         raskolnikov.take(axe);
         raskolnikov.hit(babka, blood, costume, axe);
         bodyB.fall(raskolnikov);
@@ -70,7 +75,8 @@ public class Main {
         raskolnikov.take(axe);
         rope.setWetness(true);
         raskolnikov.setPosition(Position.BENTDOWN);
-        raskolnikov.cutRope(scissors, itemArrayList.get(2), rope);
+        raskolnikov.cut(scissors, rope);
+        //raskolnikov.cutRope(scissors, itemArrayList.get(2), rope);
         raskolnikov.take(itemArrayList.getFirst());
         raskolnikov.setPosition(Position.STAND);
         raskolnikov.hidePocket(itemArrayList.getFirst());

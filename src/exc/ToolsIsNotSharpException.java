@@ -1,6 +1,6 @@
 package exc;
 
-public class ToolsIsNotSharpException extends RuntimeException {
+public class ToolsIsNotSharpException extends Exception {
     public ToolsIsNotSharpException(String message) {
         super(message);
     }

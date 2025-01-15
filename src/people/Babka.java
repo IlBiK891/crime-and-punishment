@@ -1,5 +1,7 @@
 package people;
 
+import java.util.Objects;
+
 public class Babka extends Person {
 
     private int hp;
@@ -22,10 +24,7 @@ public class Babka extends Person {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + hp;
-        result = 31 * result + firstHp;
-        return result;
+        return Objects.hash(hp, firstHp);
     }
 
     @Override

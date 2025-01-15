@@ -1,6 +1,6 @@
 package exc;
 
-public class NullItemException extends Exception {
+public class NullItemException extends RuntimeException {
     public NullItemException(String message) {
         super(message);
     }
