@@ -3,11 +3,19 @@ package people;
 import enums.Position;
 import enums.Status;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public abstract class Person {
 
 
     public String name;
     private Position position;
+    private int hp;
+    private Status status;
+
 
     public String getName() {
         return name;
@@ -21,18 +29,28 @@ public abstract class Person {
         this.position = position;
     }
 
-    private int hp;
-    private Status status;
+    private static final Logger logger = Logger.getLogger(Person.class.getName());
+    /*static {
+        Logger rootLogger = Logger.getLogger("");
+        Handler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.ALL);
+        rootLogger.addHandler(consoleHandler);
+        rootLogger.setLevel(Level.ALL);
+        if (logger.getHandlers().length == 0) {
+            logger.addHandler(new ConsoleHandler());
+        }
+
+    }*/
 
 
     public void setStatus(Status status) {
-        System.out.println("Состояние " + status);
+        logger.log(Level.INFO, "Состояние  "+ status);
         this.status = status;
     }
 
     public void setPosition(Position position) {
         this.position = position;
-        System.out.println("Положение " + position);
+        logger.log(Level.INFO, "Положение " + position);
     }
 
     public Position getPosition() {
@@ -93,8 +111,7 @@ public abstract class Person {
 
         public void setIsDirty(boolean isDirty) {
             this.isDirty = isDirty;
-            System.out.println("Костюм забрызган кровью");
-
+            logger.log(Level.INFO, "Костюм забрызган кровью");
         }
     }
 

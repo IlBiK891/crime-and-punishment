@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
+        LoggerConfig.configureLogging();
         Random random = new Random();
 
         boolean createObject = random.nextBoolean();

@@ -2,6 +2,12 @@ package forpeople;
 
 
 import enums.Items;
+import people.Raskolnikov;
+
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Item {
     private Items name;
@@ -17,6 +23,19 @@ public class Item {
         this.wetness = wetness;
         this.integrity = integrity;
     }
+
+    private static final Logger logger = Logger.getLogger(Item.class.getName());
+    /*static {
+        Logger rootLogger = Logger.getLogger("");
+        Handler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.ALL);
+        rootLogger.addHandler(consoleHandler);
+        rootLogger.setLevel(Level.ALL);
+        if (logger.getHandlers().length == 0) {
+            logger.addHandler(new ConsoleHandler());
+        }
+
+    }*/
 
     @Override
     public boolean equals(Object obj) {
@@ -63,7 +82,7 @@ public class Item {
     }
 
     public void setWetness(boolean wetness) {
-        System.out.println("Веревка пропталась кровью");
+        logger.log(Level.INFO, "Веревка пропиталась кровью");
         this.wetness = wetness;
     }
 

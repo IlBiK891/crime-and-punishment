@@ -11,8 +11,26 @@ import interfaces.Hit;
 import interfaces.Move;
 import forpeople.Blood;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Raskolnikov extends Person implements Hit, Move {
+
+    private static final Logger logger = Logger.getLogger(Raskolnikov.class.getName());
+    /*static {
+        Logger rootLogger = Logger.getLogger("");
+        Handler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.ALL);
+        rootLogger.addHandler(consoleHandler);
+        rootLogger.setLevel(Level.ALL);
+        if (logger.getHandlers().length == 0) {
+            logger.addHandler(new ConsoleHandler());
+        }
+
+    }*/
+
 
     private Position position;
     private boolean distance;
@@ -21,8 +39,8 @@ public class Raskolnikov extends Person implements Hit, Move {
     public Raskolnikov(Position position) {
         this.position = position;
         distance = false;
-
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -54,53 +72,49 @@ public class Raskolnikov extends Person implements Hit, Move {
                 '}';
     }
 
-
-
     @Override
     public void hit(Babka b, Blood blood, Costume costume, Tools tools) {
-        try {if (tools.isSharp()){
-            while (b.getHp() != 0) {
-                if (0 < b.getHp()) {
-                    if (b.getHp() == b.getFirstHp()) {
-                        b.setHp(10);
-                        System.out.println("Бабка была ударена!");
-                        b.setStatus(Status.SHIVER);
-                        System.out.println("Бабка вскрикнула");
-                        if (blood.getGushFirst() > 50) {
-                            costume.setIsDirty(true);
+        try {
+            if (tools.isSharp()) {
+                while (b.getHp() != 0) {
+                    if (0 < b.getHp()) {
+                        if (b.getHp() == b.getFirstHp()) {
+                            b.setHp(10);
+                            logger.log(Level.INFO, "Бабка была ударена!");
+                            b.setStatus(Status.SHIVER);
+                            logger.log(Level.INFO, "Бабка вскрикнула");
+                            if (blood.getGushFirst() > 50) {
+                                costume.setIsDirty(true);
+                            }
+                        } else {
+                            b.setSecondHp();
                         }
-                    } else {
-                        b.setSecondHp();
                     }
+                    if (blood.getGushSecond() > 50) {
+                        costume.setIsDirty(true);
+                    }
+                    b.setStatus(Status.DEAD);
+                    logger.log(Level.INFO, "Бабка уже мертва!");
                 }
-                if (blood.getGushSecond() > 50) {
-                    costume.setIsDirty(true);
-                }
-                b.setStatus(Status.DEAD);
-                System.out.println("Бабка уже мертва!");
+            } else {
+                throw new ToolsIsNotSharpException("Топор тупой");
             }
-        }else{
-               throw new ToolsIsNotSharpException("Топор тупой");
-            }}catch (ToolsIsNotSharpException t){
-            System.out.println(t.getMessage());
+        } catch (ToolsIsNotSharpException t) {
+            logger.log(Level.SEVERE, t.getMessage());
         }
-
     }
-
 
     public void laugh() {
-        System.out.println("Xexe");
+        logger.log(Level.INFO, "Xexe");
         setStatus(Status.LAUGHTER);
-
     }
-
 
     public void take(Tools t) {
         if (!getBusyHands()) {
             Tools expectedTool = new Tools(Items.AXE, true);
-            if(expectedTool.equals(t)) {
+            if (expectedTool.equals(t)) {
                 busyHands = true;
-                System.out.println("Раскольников взял топор");
+                logger.log(Level.INFO, "Раскольников взял топор");
             }
         }
     }
@@ -108,15 +122,14 @@ public class Raskolnikov extends Person implements Hit, Move {
     public void stepBack(Body body) {
         if (getDistance()) {
             body.setPosition(Position.LYTING);
-            System.out.println("Раскольников отошел назад");
-
+            logger.log(Level.INFO, "Раскольников отошел назад");
         }
-
         setPosition(Position.STAND);
         distance = true;
     }
+
     public void move() {
-        System.out.println("Раскольников переместился");
+        logger.log(Level.INFO, "Раскольников переместился");
         setPosition(Position.STAND);
         distance = true;
     }
@@ -129,65 +142,56 @@ public class Raskolnikov extends Person implements Hit, Move {
         return busyHands;
     }
 
-
     public void take(Item i) {
-        if(getPosition() == Position.BENTDOWN) {
+        if (getPosition() == Position.BENTDOWN) {
             if (!getBusyHands()) {
                 busyHands = true;
-                System.out.println("Раскольников нагнулся и взял " + i);
+                logger.log(Level.INFO, "Раскольников нагнулся и взял {0}", i);
             }
         }
     }
 
     public void hidePocket(Item i) {
         busyHands = false;
-        System.out.println("Раскольников положил в карман " + i);
-
+        logger.log(Level.INFO, "Раскольников положил в карман {0}", i);
     }
 
     public void drop(Tools t) {
-            busyHands = false;
-            System.out.println("Раскольников положил " + t);
-
+        busyHands = false;
+        logger.log(Level.INFO, "Раскольников положил {0}", t);
     }
 
     public void drop(Item i) {
         busyHands = false;
-        System.out.println("Раскольников положил " + i);
-
+        logger.log(Level.INFO, "Раскольников положил {0}", i);
     }
 
     public void vision(GhostBabka g) {
         if (g.getVisiable()) {
-        g.setVisiable(false);
-        System.out.println("Ему почудилась бабка");
+            g.setVisiable(false);
+            logger.log(Level.INFO, "Ему почудилась бабка");
         }
-
     }
-
 
     public void cut(Item i, Item r) throws NullItemException {
         if (i == null) {
             throw new NullItemException("Item cannot be null");
         } else {
             r.setIntegrity(false);
-            System.out.println("Веревка разрезана");
+            logger.log(Level.INFO, "Веревка разрезана");
         }
     }
 
-    public void cutRope(Item i1, Item i2, Item r){
+    public void cutRope(Item i1, Item i2, Item r) {
         try {
             cut(i1, r);
         } catch (NullItemException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
             try {
                 cut(i2, r);
             } catch (NullItemException e2) {
-                System.out.println("Ошибка при повторной попытке: " + e2.getMessage());
+                logger.log(Level.SEVERE, "Ошибка при повторной попытке: {0}", e2.getMessage());
             }
         }
     }
-
-
-
 }

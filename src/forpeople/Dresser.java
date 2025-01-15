@@ -3,6 +3,11 @@ package forpeople;
 import enums.Items;
 import interfaces.Move;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Dresser {
 
 
@@ -13,6 +18,19 @@ public class Dresser {
         public Shelf(int durability) {
             this.durability = durability;
         }
+
+        private static final Logger logger = Logger.getLogger(Dresser.class.getName());
+        /*static {
+            Logger rootLogger = Logger.getLogger("");
+            Handler consoleHandler = new ConsoleHandler();
+            consoleHandler.setLevel(Level.ALL);
+            rootLogger.addHandler(consoleHandler);
+            rootLogger.setLevel(Level.ALL);
+            if (logger.getHandlers().length == 0) {
+                logger.addHandler(new ConsoleHandler());
+            }
+
+        }*/
 
 
         @Override
@@ -31,15 +49,15 @@ public class Dresser {
 
         public void move() {
             durability = durability - 1;
-            System.out.println("Раздался скрип");
+            logger.log(Level.INFO, "Раздался скрип");
         }
 
         public void open(Item i) {
             if (i != null && Items.KEYS.equals(i.getName())) {
                 move();
-                System.out.println("Полка открыта!");
+                logger.log(Level.INFO, "Полка открыта");
             } else {
-                System.out.println("Неверный предмет для открытия!");
+                logger.log(Level.INFO, "Неверный предмет для открытия");
             }
         }
     }
