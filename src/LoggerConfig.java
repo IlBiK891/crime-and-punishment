@@ -8,15 +8,13 @@ public class LoggerConfig {
         Logger rootLogger = Logger.getLogger("");
         Handler[] handlers = rootLogger.getHandlers();
 
-       for (Handler handler : handlers) {
+        for (Handler handler : handlers) {
             rootLogger.removeHandler(handler);
         }
-
 
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.INFO);
         rootLogger.addHandler(consoleHandler);
-
-       rootLogger.setLevel(Level.INFO);
+        rootLogger.setLevel(Level.INFO);
     }
 }

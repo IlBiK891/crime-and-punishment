@@ -2,10 +2,7 @@ package forpeople;
 
 
 import enums.Items;
-import people.Raskolnikov;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +22,6 @@ public class Item {
     }
 
     private static final Logger logger = Logger.getLogger(Item.class.getName());
-
 
 
     @Override

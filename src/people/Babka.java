@@ -16,8 +16,6 @@ public class Babka extends Person {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        if (!super.equals(obj)) return false;
-
         Babka babka = (Babka) obj;
         return hp == babka.hp && firstHp == babka.firstHp;
     }

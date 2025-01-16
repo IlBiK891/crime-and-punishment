@@ -1,7 +1,6 @@
 import enums.Items;
 import enums.Position;
 import enums.Status;
-import exc.NullItemException;
 import forpeople.Blood;
 import forpeople.Dresser;
 import forpeople.Item;
@@ -39,8 +38,7 @@ public class Main {
         Person.Body bodyB = babka.new Body(32);
         Person.Body.Hair hair = bodyB.new Hair(10000);
 
-        Raskolnikov raskolnikov = new Raskolnikov( Position.STAND);
-        Raskolnikov raskolnikov1 = raskolnikov;
+        Raskolnikov raskolnikov = new Raskolnikov(Position.STAND);
         Costume costume = raskolnikov.new Costume("frak");
 
         GhostBabka ghostbabka = new GhostBabka(true);
@@ -53,10 +51,7 @@ public class Main {
 
 
         hair.setHairstyle();
-        if (raskolnikov1.hashCode() == raskolnikov.hashCode()){
-            if (raskolnikov1.equals(raskolnikov)){
-                raskolnikov.take(axe);
-        }}
+        raskolnikov.take(axe);
         raskolnikov.take(axe);
         raskolnikov.hit(babka, blood, costume, axe);
         bodyB.fall(raskolnikov);
@@ -67,7 +62,7 @@ public class Main {
         raskolnikov.take(itemArrayList.get(1));
         raskolnikov.move();
         raskolnikov.setStatus(Status.CRAMP);
-        polka.open(itemArrayList.get(1));
+        polka.open(itemArrayList.get(1), raskolnikov);
         raskolnikov.laugh();
         raskolnikov.vision(ghostbabka);
         raskolnikov.drop(itemArrayList.get(1));

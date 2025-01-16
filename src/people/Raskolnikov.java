@@ -5,15 +5,13 @@ import enums.Position;
 import enums.Status;
 import exc.NullItemException;
 import exc.ToolsIsNotSharpException;
+import forpeople.Blood;
 import forpeople.Item;
 import forpeople.Tools;
 import interfaces.Hit;
 import interfaces.Move;
-import forpeople.Blood;
 
 import java.util.Objects;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +33,6 @@ public class Raskolnikov extends Person implements Hit, Move {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        if (!super.equals(obj)) return false;
 
         Raskolnikov that = (Raskolnikov) obj;
         return distance == that.distance &&

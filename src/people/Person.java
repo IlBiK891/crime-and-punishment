@@ -3,8 +3,6 @@ package people;
 import enums.Position;
 import enums.Status;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +42,7 @@ public abstract class Person {
 
 
     public void setStatus(Status status) {
-        logger.log(Level.INFO, "Состояние  "+ status);
+        logger.log(Level.INFO, "Состояние  " + status);
         this.status = status;
     }
 
@@ -114,8 +112,6 @@ public abstract class Person {
             logger.log(Level.INFO, "Костюм забрызган кровью");
         }
     }
-
-
 
 
 }
