@@ -8,7 +8,7 @@ import forpeople.Tools;
 import people.Babka;
 import people.GhostBabka;
 import people.Person;
-import people.Person.Costume;
+import forpeople.Costume;
 import people.Raskolnikov;
 
 import java.util.ArrayList;
@@ -35,34 +35,28 @@ public class Main {
 
 
         Babka babka = new Babka(100);
-        Person.Body bodyB = babka.new Body(32);
-        Person.Body.Hair hair = bodyB.new Hair(10000);
 
         Raskolnikov raskolnikov = new Raskolnikov(Position.STAND);
-        Costume costume = raskolnikov.new Costume("frak");
+        Costume costume = new Costume("frak");
 
         GhostBabka ghostbabka = new GhostBabka(true);
         Blood blood = new Blood();
 
-        Dresser dresser = new Dresser();
-        Dresser.Shelf polka = dresser.new Shelf(10);
+        Dresser dresser = new Dresser(10);
 
         Tools axe = new Tools(Items.AXE, true);
 
-
-        hair.setHairstyle();
-        raskolnikov.take(axe);
         raskolnikov.take(axe);
         raskolnikov.hit(babka, blood, costume, axe);
-        bodyB.fall(raskolnikov);
+        babka.fall();
         raskolnikov.setStatus(Status.SHIVER);
-        raskolnikov.stepBack(bodyB);
+        raskolnikov.stepBack(babka);
         raskolnikov.setPosition(Position.BENTDOWN);
         raskolnikov.drop(axe);
         raskolnikov.take(itemArrayList.get(1));
         raskolnikov.move();
         raskolnikov.setStatus(Status.CRAMP);
-        polka.open(itemArrayList.get(1), raskolnikov);
+        raskolnikov.open(dresser, itemArrayList.get(1));
         raskolnikov.laugh();
         raskolnikov.vision(ghostbabka);
         raskolnikov.drop(itemArrayList.get(1));
@@ -71,7 +65,6 @@ public class Main {
         rope.setWetness(true);
         raskolnikov.setPosition(Position.BENTDOWN);
         raskolnikov.cut(scissors, rope);
-        //raskolnikov.cutRope(scissors, itemArrayList.get(2), rope);
         raskolnikov.take(itemArrayList.getFirst());
         raskolnikov.setPosition(Position.STAND);
         raskolnikov.hidePocket(itemArrayList.getFirst());

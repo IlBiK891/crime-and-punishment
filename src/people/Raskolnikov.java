@@ -5,17 +5,15 @@ import enums.Position;
 import enums.Status;
 import exc.NullItemException;
 import exc.ToolsIsNotSharpException;
-import forpeople.Blood;
-import forpeople.Item;
-import forpeople.Tools;
-import interfaces.Hit;
+import forpeople.*;
 import interfaces.Move;
+import interfaces.Open;
 
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Raskolnikov extends Person implements Hit, Move {
+public class Raskolnikov extends Person implements Move, Open {
 
     private static final Logger logger = Logger.getLogger(Raskolnikov.class.getName());
 
@@ -29,23 +27,6 @@ public class Raskolnikov extends Person implements Hit, Move {
         distance = false;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-
-        Raskolnikov that = (Raskolnikov) obj;
-        return distance == that.distance &&
-                busyHands == that.busyHands &&
-                position == that.position;
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(distance, busyHands, position);
-    }
-
 
     @Override
     public String toString() {
@@ -57,7 +38,6 @@ public class Raskolnikov extends Person implements Hit, Move {
                 '}';
     }
 
-    @Override
     public void hit(Babka b, Blood blood, Costume costume, Tools tools) {
         try {
             Babka rightBabka = new Babka(100);
@@ -109,13 +89,14 @@ public class Raskolnikov extends Person implements Hit, Move {
         }
     }
 
-    public void stepBack(Body body) {
+    public void stepBack(Babka babka) {
         if (getDistance()) {
-            body.setPosition(Position.LYTING);
+            babka.setPosition(Position.LYTING);
             logger.log(Level.INFO, "Раскольников отошел назад");
         }
         setPosition(Position.STAND);
         distance = true;
+        babka.setDistanceB(true);
     }
 
     public void move() {
@@ -169,6 +150,24 @@ public class Raskolnikov extends Person implements Hit, Move {
         } else {
             r.setIntegrity(false);
             logger.log(Level.INFO, "Веревка разрезана");
+        }
+    }
+
+    @Override
+    public void open(Dresser d, Item i) {
+        Dresser dresser = new Dresser(10);
+
+        //Raskolnikov r = new Raskolnikov(Position.STAND);
+        if (dresser.hashCode() == d.hashCode()) {
+            if (d.equals(dresser)) {
+
+                if (i != null && Items.KEYS.equals(i.getName())) {
+                    move();
+                    logger.log(Level.INFO, "Полка открыта");
+                } else {
+                    logger.log(Level.INFO, "Неверный предмет для открытия");
+                }
+            }
         }
     }
 

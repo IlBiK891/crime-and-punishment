@@ -1,15 +1,21 @@
 package people;
 
+import enums.Position;
+import interfaces.Fall;
+import interfaces.Health;
+
 import java.util.Objects;
 
-public class Babka extends Person {
+public class Babka extends Person implements Health, Fall {
 
     private int hp;
     private final int firstHp;
+    private boolean distanceB;
 
     public Babka(int hp) {
         this.hp = hp;
         firstHp = hp;
+        distanceB = false;
     }
 
     @Override
@@ -51,5 +57,23 @@ public class Babka extends Person {
         hp = 0;
     }
 
+    public boolean getDistanceB() {
+        return distanceB;
+    }
+
+    public void setDistanceB(boolean distanceB) {
+        this.distanceB = distanceB;
+    }
+
+    @Override
+    public void fall() {
+        if (distanceB) {
+            setPosition(Position.LYTING);
+        } else {
+            setPosition(Position.SEMIRECUMBENT);
+        }
+
+
+    }
 
 }
